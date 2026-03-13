@@ -8,7 +8,7 @@ import AuthProvider from '@/components/AuthProvider'
 // Import the custom toast notification provider
 import { ToastProvider } from '@/components/ToastProvider'
 // Import Vercel Analytics
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 
 // Initialize the Inter font with Latin subset for optimal performance
 const inter = Inter({ subsets: ['latin'] })
