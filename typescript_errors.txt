@@ -1,0 +1,18 @@
+.next/types/validator.ts(108,31): error TS2344: Type 'typeof import("C:/Users/ronan/New folder/jobtrack-clone/src/app/api/applications/[id]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/applications/[id]">'.
+  Types of property 'PUT' are incompatible.
+    Type '(request: Request, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ link: string | null; id: string; userId: string; company: string; role: string; status: string; salary: string | null; location: string | null; notes: string | null; appliedDate: Date; updatedAt: Date; }> | NextResponse<...>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+prisma.config.ts(4,30): error TS2307: Cannot find module 'prisma/config' or its corresponding type declarations.
+src/app/api/analytics/route.ts(12,52): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/analytics/route.ts(20,33): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/applications/[id]/route.ts(4,29): error TS2307: Cannot find module '../auth/[...nextauth]/route' or its corresponding type declarations.
+src/app/api/applications/route.ts(12,52): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/applications/route.ts(23,28): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/applications/route.ts(51,52): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/applications/route.ts(70,30): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/auth/[...nextauth]/route.ts(48,22): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/sync/route.ts(45,52): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.
+src/app/api/sync/route.ts(52,33): error TS2339: Property 'id' does not exist on type '{ name?: string | null | undefined; email?: string | null | undefined; image?: string | null | undefined; }'.

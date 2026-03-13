@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Defines the Prisma Client generator for JavaScript/TypeScript
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Specifies the SQLite database connection details
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Core User model representing application users
+model User {
+  id              String    @id @default(cuid())
+  name            String?                        // Optional user name
+  email           String?   @unique              // Unique email for identification
+  emailVerified   DateTime?                      // Optional timestamp for email verification (NextAuth requirement)
+  image           String?                        // profile image URL (from Google or manual upload)
+  password        String?                        // Hashed password (null for Google-authenticated users)
+  role            String?                        // Current career role (e.g., "Developer")
+  industry        String?                        // Targeted industry (e.g., "Tech")
+  experienceLevel String?                        // e.g., "Mid Level", "Senior"
+  gender          String?                        // Added in Phase 10: "male" or "female"
+  applications    JobApplication[]               // One-to-many relationship with job applications
+  accounts        Account[]                      // NextAuth accounts linking (for OAuth providers like Google)
+  sessions        Session[]                      // NextAuth active sessions tracking
+}
+
+// NextAuth Account model: Stores OAuth account details (e.g., Google login info)
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// NextAuth Session model: Manages active user logins
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// NextAuth VerificationToken model: For magic links or verification emails
+model VerificationToken {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// JobApplication model: Stores individual job search records
+model JobApplication {
+  id          String   @id @default(cuid())
+  userId      String
+  company     String
+  role        String
+  status      String   @default("Applied") // Stages: Applied, Interviewing, Offer, Rejected
+  salary      String?                        // Optional target/offered salary
+  location    String?                        // Remote, Hybrid, or city name
+  link        String?                        // URL to the job posting
+  notes       String?                        // Custom user notes or feedback
+  deadline    DateTime?                      // Application or task deadline
+  reminderDate DateTime?                     // Date for follow-up reminder
+  appliedDate DateTime @default(now())         // Automatic timestamp for application date
+  updatedAt   DateTime @updatedAt              // Automatic update timestamp on every change
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
