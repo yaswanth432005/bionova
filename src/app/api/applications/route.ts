@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session || !session.user || !session.user.id) {
+    if (!session?.user?.id) {
       return NextResponse.json(
         { message: "Unauthorized: You must be logged in to view your applications." },
         { status: 401 }
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session || !session.user || !session.user.id) {
+    if (!session?.user?.id) {
       return NextResponse.json(
         { message: "Unauthorized: You must be logged in to create applications." },
         { status: 401 }
