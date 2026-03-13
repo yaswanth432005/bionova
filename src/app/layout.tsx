@@ -7,6 +7,8 @@ import './globals.css'
 import AuthProvider from '@/components/AuthProvider'
 // Import the custom toast notification provider
 import { ToastProvider } from '@/components/ToastProvider'
+// Import Vercel Analytics
+import { Analytics } from "@vercel/analytics/next"
 
 // Initialize the Inter font with Latin subset for optimal performance
 const inter = Inter({ subsets: ['latin'] })
@@ -34,6 +36,8 @@ export default function RootLayout({
           <ToastProvider>
             {/* Render the specific page content */}
             {children}
+            {/* Enable Vercel Analytics for production tracking */}
+            <Analytics />
           </ToastProvider>
         </AuthProvider>
       </body>
