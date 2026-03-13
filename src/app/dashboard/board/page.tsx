@@ -214,22 +214,30 @@ export default function BoardPage() {
                                     )}
                                   </div>
                                   
-                                  {app.deadline && (
-                                    <div className={`flex items-center gap-2 px-2 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider w-fit shadow-sm transition-all ${
-                                      new Date(app.deadline).getTime() - new Date().getTime() < 24 * 60 * 60 * 1000 && new Date(app.deadline).getTime() > new Date().getTime()
-                                        ? "bg-red-600 text-white border border-red-400 animate-pulse shadow-[0_0_15px_rgba(220,38,38,0.5)]" 
-                                        : new Date(app.deadline) < new Date() 
-                                          ? "bg-red-500/10 text-red-400 border border-red-500/20" 
-                                          : (new Date(app.deadline).getTime() - new Date().getTime()) < 48 * 60 * 60 * 1000
-                                            ? "bg-orange-500/10 text-orange-400 border border-orange-500/20"
-                                            : "bg-blue-500/10 text-blue-400 border border-blue-500/20"
-                                    }`}>
-                                      {new Date(app.deadline).getTime() - new Date().getTime() < 24 * 60 * 60 * 1000 && new Date(app.deadline).getTime() > new Date().getTime() 
-                                        ? "🔥 URGENT: 1 DAY LEFT" 
-                                        : `Deadline: ${new Date(app.deadline).toLocaleDateString()}`}
-                                      {new Date(app.deadline) < new Date() && " (Overdue)"}
-                                    </div>
-                                  )}
+                                  {app.deadline && (() => {
+                                    const d = new Date(app.deadline);
+                                    const now = new Date();
+                                    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                                    const diffDays = Math.ceil((d.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+                                    const isOverdue = d < today;
+
+                                    return (
+                                      <div className={`flex items-center gap-2 px-2 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider w-fit shadow-sm transition-all ${
+                                        diffDays === 1 || diffDays === 0
+                                          ? "bg-red-600 text-white border border-red-400 animate-pulse shadow-[0_0_15px_rgba(220,38,38,0.5)]" 
+                                          : isOverdue 
+                                            ? "bg-red-500/10 text-red-400 border border-red-500/20" 
+                                            : diffDays <= 2
+                                              ? "bg-orange-500/10 text-orange-400 border border-orange-500/20"
+                                              : "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                                      }`}>
+                                        {diffDays === 1 || diffDays === 0
+                                          ? "🔥 URGENT: 1 DAY LEFT" 
+                                          : `Deadline: ${d.toLocaleDateString()}`}
+                                        {isOverdue && " (Overdue)"}
+                                      </div>
+                                    );
+                                  })()}
                                 </div>
                               )}
 

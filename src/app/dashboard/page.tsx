@@ -24,6 +24,7 @@ type AnalyticsData = {
   interviewRate: number
   weeklyGoal: number
   upcomingDeadlines: number
+  urgentDeadlines: number
 }
 
 export default function DashboardPage() {
@@ -123,8 +124,17 @@ export default function DashboardPage() {
           // Stat card with glassmorphic styling and hover interactions
           <div 
             key={i} 
-            className="glass rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all group"
+            className={`glass rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all group relative overflow-hidden ${
+              stat.title === "Upcoming Deadlines" && data.urgentDeadlines > 0 
+                ? "border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.2)] animate-pulse" 
+                : ""
+            }`}
           >
+            {stat.title === "Upcoming Deadlines" && data.urgentDeadlines > 0 && (
+              <div className="absolute top-0 right-0 px-2 py-0.5 bg-red-500 text-[8px] font-bold text-white uppercase tracking-tighter">
+                Urgent
+              </div>
+            )}
             <div className="flex items-center justify-between mb-4">
               <div className="space-y-1">
                 <h3 className="font-medium text-gray-400">{stat.title}</h3>
@@ -137,7 +147,9 @@ export default function DashboardPage() {
               </div>
             </div>
             {/* Display the calculated or fetched numeric value */}
-            <div className="text-4xl font-bold tracking-tight">{stat.value}</div>
+            <div className={`text-4xl font-bold tracking-tight ${
+              stat.title === "Upcoming Deadlines" && data.urgentDeadlines > 0 ? "text-red-400" : ""
+            }`}>{stat.value}</div>
           </div>
         ))}
       </div>
